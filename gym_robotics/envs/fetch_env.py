@@ -147,7 +147,7 @@ class FetchEnv(robot_env.RobotEnv):
         )
         
         front_frame = self.sim.render(
-            width=300, height=200, camera_name='external_camera_0', depth=False
+            width=100, height=100, camera_name='external_camera_0', depth=False
         )
 
         obs = front_frame
