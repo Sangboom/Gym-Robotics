@@ -145,6 +145,12 @@ class FetchEnv(robot_env.RobotEnv):
                 gripper_vel,
             ]
         )
+        
+        front_frame = self.sim.render(
+            width=300, height=200, camera_name='external_camera_0', depth=False
+        )
+
+        obs = front_frame
 
         return {
             "observation": obs.copy(),
