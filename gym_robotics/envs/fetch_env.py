@@ -2,6 +2,8 @@ import numpy as np
 
 from gym_robotics.envs import rotations, robot_env, utils
 
+import cv2
+
 
 def goal_distance(goal_a, goal_b):
     assert goal_a.shape == goal_b.shape
@@ -65,10 +67,10 @@ class FetchEnv(robot_env.RobotEnv):
     def compute_reward(self, achieved_goal, goal, info):
         # Compute distance between goal and the achieved goal.
         d = goal_distance(achieved_goal, goal)
-        if self.reward_type == "sparse":
-            return -(d > self.distance_threshold).astype(np.float32)
-        else:
-            return -d
+        # if self.reward_type == "sparse":
+        #     return -(d > self.distance_threshold).astype(np.float32)
+        # else:
+        return -d
 
     # RobotEnv methods
     # ----------------------------
@@ -146,9 +148,11 @@ class FetchEnv(robot_env.RobotEnv):
             ]
         )
         
-        front_frame = self.sim.render(
-            width=100, height=100, camera_name='external_camera_0', depth=False
+        self.obs = self.sim.render(
+            width=840, height=840, camera_name='external_camera_0', depth=False
         )
+        
+        front_frame = cv2.resize(self.obs, (84, 84), interpolation=cv2.INTER_AREA)
 
         obs = front_frame
 
@@ -233,4 +237,5 @@ class FetchEnv(robot_env.RobotEnv):
             self.height_offset = self.sim.data.get_site_xpos("object0")[2]
 
     def render(self, mode="human", width=100, height=100):
-        return super().render(mode, width, height)
+        # return super().render(mode, width, height)
+        return self.obs
