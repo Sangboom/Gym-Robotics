@@ -149,7 +149,7 @@ class FetchEnv(robot_env.RobotEnv):
         )
         
         self.obs = self.sim.render(
-            width=840, height=840, camera_name='external_camera_0', depth=False
+            width=720, height=720, camera_name='external_camera_0', depth=False
         )
         
         front_frame = cv2.resize(self.obs, (84, 84), interpolation=cv2.INTER_AREA)
